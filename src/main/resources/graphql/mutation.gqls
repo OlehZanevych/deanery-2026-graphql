@@ -1,0 +1,4 @@
+type Mutation {
+    faculties: FacultyMutations
+    departments: DepartmentMutations
+}

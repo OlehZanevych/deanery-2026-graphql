@@ -1,0 +1,95 @@
+type DepartmentQueries {
+    departmentConnection(limit: Int! = 1000, offset: Int! = 0): DepartmentConnection
+    department(id: ID!): Department
+}
+
+type DepartmentMutations {
+    createDepartment(department: DepartmentInputPayload!): DepartmentCreateResponse
+    updateDepartment(id: ID!, department: DepartmentInputPayload!): DepartmentUpdateResponse
+    deleteDepartment(id: ID!): DepartmentDeleteResponse
+}
+
+type DepartmentConnection implements Connection {
+    nodes: [Department!]!
+    pageInfo: ConnectionPageInfo!
+}
+
+type Department {
+    id: ID!
+    name: String!
+    email: String!
+    phone: String!
+    info: String
+    faculty: FacultyItem!
+}
+
+type DepartmentItem {
+    id: ID!
+    name: String!
+    email: String!
+    phone: String!
+    info: String
+}
+
+input DepartmentInputPayload {
+    name: String!
+    facultyId: ID!
+    email: String!
+    phone: String!
+    info: String
+}
+
+type DepartmentCreateResponse {
+    """
+    Flag that indicates whether Department was created successfully
+    """
+    isSuccess: Boolean!
+    """
+    Created Department
+    """
+    data: Department
+    """
+    Indicates the type of error that caused creating of Department to fail
+    """
+    errorStatus: DepartmentCreateErrorStatus
+}
+
+type DepartmentUpdateResponse {
+    """
+    Flag that indicates whether Department was updated successfully
+    """
+    isSuccess: Boolean!
+    """
+    Indicates the type of error that caused updating of Department to fail
+    """
+    errorStatus: DepartmentUpdateErrorStatus
+}
+
+type DepartmentDeleteResponse {
+    """
+    Flag that indicates whether Department was deleted successfully
+    """
+    isSuccess: Boolean!
+    """
+    Indicates the type of error that caused deleting of Department to fail
+    """
+    errorStatus: DepartmentDeleteErrorStatus
+}
+
+enum DepartmentCreateErrorStatus {
+    DUPLICATED_NAME
+    FACULTY_NOT_FOUND
+    INTERNAL_SERVER_ERROR
+}
+
+enum DepartmentUpdateErrorStatus {
+    DEPARTMENT_NOT_FOUND
+    DUPLICATED_NAME
+    FACULTY_NOT_FOUND
+    INTERNAL_SERVER_ERROR
+}
+
+enum DepartmentDeleteErrorStatus {
+    DEPARTMENT_NOT_FOUND
+    INTERNAL_SERVER_ERROR
+}

@@ -1,0 +1,19 @@
+interface Connection {
+    pageInfo: ConnectionPageInfo!
+}
+
+type ConnectionPageInfo {
+    """
+    The total number of nodes, ignoring pagination
+    """
+    total: Int!
+    """
+    Offset for getting next page of nodes. It is null when there are
+    no more next nodes, ie hasNextPage is false.
+    """
+    nextPageOffset: Int
+    """
+    Flag that indicates whether there are more nodes
+    """
+    hasNextPage: Boolean!
+}

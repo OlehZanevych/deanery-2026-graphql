@@ -1,0 +1,100 @@
+type FacultyQueries {
+    facultyConnection(limit: Int! = 1000, offset: Int! = 0): FacultyConnection
+    faculty(id: ID!): Faculty
+}
+
+type FacultyMutations {
+    createFaculty(faculty: FacultyInputPayload!): FacultyCreateResponse
+    updateFaculty(id: ID!, faculty: FacultyInputPayload!): FacultyUpdateResponse
+    deleteFaculty(id: ID!): FacultyDeleteResponse
+}
+
+type FacultyConnection implements Connection {
+    nodes: [Faculty!]!
+    pageInfo: ConnectionPageInfo!
+}
+
+type Faculty {
+    id: ID!
+    name: String!
+    website: String!
+    email: String!
+    phone: String!
+    address: String!
+    logoUri: String
+    info: String
+    departments: [DepartmentItem!]
+}
+
+type FacultyItem {
+    id: ID!
+    name: String!
+    website: String!
+    email: String!
+    phone: String!
+    address: String!
+    logoUri: String
+    info: String
+}
+
+input FacultyInputPayload {
+    name: String!
+    website: String!
+    email: String!
+    phone: String!
+    address: String!
+    info: String
+}
+
+type FacultyCreateResponse {
+    """
+    Flag that indicates whether Faculty was created successfully
+    """
+    isSuccess: Boolean!
+    """
+    Created Faculty
+    """
+    data: Faculty
+    """
+    Indicates the type of error that caused creating of Faculty to fail
+    """
+    errorStatus: FacultyCreateErrorStatus
+}
+
+type FacultyUpdateResponse {
+    """
+    Flag that indicates whether Faculty was updated successfully
+    """
+    isSuccess: Boolean!
+    """
+    Indicates the type of error that caused updating of Faculty to fail
+    """
+    errorStatus: FacultyUpdateErrorStatus
+}
+
+type FacultyDeleteResponse {
+    """
+    Flag that indicates whether Faculty was deleted successfully
+    """
+    isSuccess: Boolean!
+    """
+    Indicates the type of error that caused deleting of Faculty to fail
+    """
+    errorStatus: FacultyDeleteErrorStatus
+}
+
+enum FacultyCreateErrorStatus {
+    DUPLICATED_NAME
+    INTERNAL_SERVER_ERROR
+}
+
+enum FacultyUpdateErrorStatus {
+    FACULTY_NOT_FOUND
+    DUPLICATED_NAME
+    INTERNAL_SERVER_ERROR
+}
+
+enum FacultyDeleteErrorStatus {
+    FACULTY_NOT_FOUND
+    INTERNAL_SERVER_ERROR
+}
